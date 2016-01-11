@@ -1,4 +1,4 @@
-module Fernet
+module LegacyFernet
   class Secret
     def initialize(secret, encrypt)
       @secret  = secret

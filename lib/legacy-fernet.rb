@@ -1,17 +1,17 @@
-require 'fernet/version'
-require 'fernet/generator'
-require 'fernet/verifier'
-require 'fernet/secret'
-require 'fernet/configuration'
-require 'fernet/okjson'
+require 'legacy-fernet/version'
+require 'legacy-fernet/generator'
+require 'legacy-fernet/verifier'
+require 'legacy-fernet/secret'
+require 'legacy-fernet/configuration'
+require 'legacy-fernet/okjson'
 
 if RUBY_VERSION == '1.8.7'
   require 'shim/base64'
 end
 
-Fernet::Configuration.run
+LegacyFernet::Configuration.run
 
-module Fernet
+module LegacyFernet
   def self.generate(secret, encrypt = Configuration.encrypt, &block)
     Generator.new(secret, encrypt).generate(&block)
   end

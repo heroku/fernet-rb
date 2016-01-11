@@ -20,14 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# See https://github.com/kr/okjson for updates.
-
 require 'stringio'
 
 # Some parts adapted from
 # http://golang.org/src/pkg/json/decode.go and
 # http://golang.org/src/pkg/utf8/utf8.go
-module Fernet::OkJson
+module LegacyFernet::OkJson
   extend self
 
 

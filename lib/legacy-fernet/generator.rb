@@ -2,7 +2,7 @@ require 'base64'
 require 'openssl'
 require 'date'
 
-module Fernet
+module LegacyFernet
   class Generator
     attr_accessor :data, :payload
 
@@ -21,7 +21,7 @@ module Fernet
         iv = encrypt_data!
         @payload = "#{base64(data)}|#{base64(iv)}"
       else
-        @payload = base64(Fernet::OkJson.encode(stringify_hash_keys(data)))
+        @payload = base64(LegacyFernet::OkJson.encode(stringify_hash_keys(data)))
       end
 
       mac = OpenSSL::HMAC.hexdigest('sha256', payload, signing_key)
@@ -29,7 +29,7 @@ module Fernet
     end
 
     def inspect
-      "#<Fernet::Generator @secret=[masked] @data=#{@data.inspect}>"
+      "#<LegacyFernet::Generator @secret=[masked] @data=#{@data.inspect}>"
     end
     alias to_s inspect
 
@@ -46,7 +46,7 @@ module Fernet
       iv         = cipher.random_iv
       cipher.iv  = iv
       cipher.key = encryption_key
-      @data = cipher.update(Fernet::OkJson.encode(stringify_hash_keys(data))) + cipher.final
+      @data = cipher.update(LegacyFernet::OkJson.encode(stringify_hash_keys(data))) + cipher.final
       iv
     end
 

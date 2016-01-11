@@ -2,7 +2,7 @@ require 'base64'
 require 'openssl'
 require 'date'
 
-module Fernet
+module LegacyFernet
   class Verifier
     attr_reader :token, :data
     attr_accessor :ttl, :enforce_ttl
@@ -32,7 +32,7 @@ module Fernet
     end
 
     def inspect
-      "#<Fernet::Verifier @secret=[masked] @token=#{@token} @data=#{@data.inspect} @ttl=#{@ttl}>"
+      "#<LegacyFernet::Verifier @secret=[masked] @token=#{@token} @data=#{@data.inspect} @ttl=#{@ttl}>"
     end
     alias to_s inspect
 
@@ -43,12 +43,12 @@ module Fernet
       parts = @token.split('|')
       if decrypt?
         encrypted_data, iv, @received_signature = *parts
-        @data = Fernet::OkJson.decode(decrypt!(encrypted_data, Base64.urlsafe_decode64(iv)))
+        @data = LegacyFernet::OkJson.decode(decrypt!(encrypted_data, Base64.urlsafe_decode64(iv)))
         signing_blob = "#{encrypted_data}|#{iv}"
       else
         encoded_data, @received_signature = *parts
         signing_blob = encoded_data
-        @data = Fernet::OkJson.decode(Base64.urlsafe_decode64(encoded_data))
+        @data = LegacyFernet::OkJson.decode(Base64.urlsafe_decode64(encoded_data))
       end
       @regenerated_mac = OpenSSL::HMAC.hexdigest('sha256', signing_blob, signing_key)
     end
