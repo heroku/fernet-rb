@@ -1,3 +1,3 @@
 module Fernet
-  VERSION = "2.3"
+  VERSION = "2.3-heroku"
 end
